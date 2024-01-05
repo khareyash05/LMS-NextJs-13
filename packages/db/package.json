@@ -1,8 +1,8 @@
 {
-  "name": "db",
+  "name": "@repo/db",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "db:generate": "prisma generate",
@@ -12,7 +12,8 @@
     "@prisma/client": "5.7.1"
   },
   "devDependencies": {
-    "prisma": "5.7.1"
+    "prisma": "5.7.1",
+    "typescript" :"^5"
   },
   "keywords": [],
   "author": "",

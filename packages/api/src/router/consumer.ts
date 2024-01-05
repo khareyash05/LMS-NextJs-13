@@ -1,9 +1,6 @@
 import { createTRPCRouter, publicProcedure } from '../trpc'
-
-import { Prisma } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
-import { prisma } from '../prisma';
 
 export const consumerRouter = createTRPCRouter({
     register : publicProcedure
@@ -14,14 +11,14 @@ export const consumerRouter = createTRPCRouter({
                 password: z.string(),
             }),
         )
-        .query(async ({input})=>{
-            const existingUser = await prisma.consumer.findFirst({
+        .query(async ({input,ctx})=>{
+            const existingUser = await ctx.prisma.consumer.findFirst({
                 where:{
                     email: input.email
                 }
             })
             if(existingUser!=null) return new TRPCError({message:"User already exists" , code:"CONFLICT"})
-            const createdUser = await prisma.consumer.create({
+            const createdUser = await ctx.prisma.consumer.create({
                 data:{
                     name : input.name,
                     email: input.email,
@@ -38,8 +35,8 @@ export const consumerRouter = createTRPCRouter({
                 password: z.string(),
             }),
         )
-        .query(async ({input})=>{
-            const existingUser = await prisma.consumer.findFirst({
+        .query(async ({input,ctx})=>{
+            const existingUser = await ctx.prisma.consumer.findFirst({
                 where:{
                     email: input.email
                 }
