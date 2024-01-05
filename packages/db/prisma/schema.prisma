@@ -10,15 +10,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id          String     @id @default(auto()) @map("_id") @db.ObjectId
-  categoryIDs String[]   @db.ObjectId
-  categories  Category[] @relation(fields: [categoryIDs], references: [id])
+model Producer {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String  @unique
+  password String
 }
 
-model Category {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  name    String
-  postIDs String[] @db.ObjectId
-  posts   Post[]   @relation(fields: [postIDs], references: [id])
+model Consumer {
+  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String  @unique
+  password String
 }
