@@ -6,20 +6,30 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Producer {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
+  id       Int   @id @default(autoincrement())
+  name     String
+  email    String  @unique
+  password String
+  services Service[] 
+}
+
+model Consumer {
+  id       Int   @id @default(autoincrement())
   name     String
   email    String  @unique
   password String
 }
 
-model Consumer {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
-  email    String  @unique
-  password String
+model Service{
+  id              Int   @id @default(autoincrement())
+  name            String
+  cost            Int
+  location        String
+  producerFrom    Producer? @relation(fields: [producerId], references: [id])
+  producerId      Int?  
 }

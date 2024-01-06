@@ -11,6 +11,8 @@
   "dependencies": {
     "@repo/ui" : "*",
     "@repo/auth": "*",
+    "@repo/api": "*",
+    "@repo/db": "*",
     "react": "^18",
     "react-dom": "^18",
     "next": "14.0.4"
