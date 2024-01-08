@@ -1,6 +1,7 @@
 # Turborepo starter
 
-This is an official starter Turborepo.
+This is an official starter Turborepo.<br>
+Tech Stack - Next JS + Tailwind CSS + TRPC + Prisma + Postgres + Next-Auth
 
 ## Using this example
 
@@ -18,7 +19,11 @@ This Turborepo includes the following packages/apps:
 
 - `docs`: a [Next.js](https://nextjs.org/) app
 - `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
+- `client`: Client side code for the application
+- `@repo/ui`: a stub React component library shared by both `web` and `docs` and `client` applications
+- `@repo/db`: initialize Postgres DB using Prisma
+- `@repo/api`: a TRPC Router Component with Next-Auth Middleware
+- `@repo/auth`: a Next-Auth setup component with Google Sign-In
 - `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
 - `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
 
@@ -37,8 +42,8 @@ This Turborepo has some additional tools already setup for you:
 To build all apps and packages, run the following command:
 
 ```
-cd my-turborepo
-pnpm build
+cd wedding-and-all
+npm build
 ```
 
 ### Develop
@@ -46,8 +51,8 @@ pnpm build
 To develop all apps and packages, run the following command:
 
 ```
-cd my-turborepo
-pnpm dev
+cd wedding-and-all
+npm run dev
 ```
 
 ### Remote Caching
@@ -57,7 +62,7 @@ Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo
 By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
 
 ```
-cd my-turborepo
+cd wedding-and-all
 npx turbo login
 ```
 
