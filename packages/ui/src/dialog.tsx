@@ -1,8 +1,7 @@
 "use client";
 
-import React from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-// import { Cross2Icon } from '@radix-ui/react-icons';
+import { Cross2Icon } from '@radix-ui/react-icons';
 
 export const DialogDemo = () => (
   <Dialog.Root>
@@ -47,14 +46,14 @@ export const DialogDemo = () => (
             </button>
           </Dialog.Close>
         </div>
-        {/* <Dialog.Close asChild>
+        <Dialog.Close asChild>
           <button
             className="text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none"
             aria-label="Close"
           >
             <Cross2Icon />
           </button>
-        </Dialog.Close> */}
+        </Dialog.Close>
       </Dialog.Content>
     </Dialog.Portal>
   </Dialog.Root>
