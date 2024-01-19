@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Client{
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @db.Text
+
+  producers Producer[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum ServiceTypes{
+  MARRIAGEHALL
+  PHOTOGRAPHER
+  DJ
+  CATERER
+}
+
+model Service{
+  id         String   @id @default(uuid())
+  name       String
+  type       ServiceTypes
+  cost       Int
+  details    String   @db.Text
+
+  producerId String
+  producer   Producer @relation(fields: [producerId],references: [id],onDelete: Cascade)
+
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([producerId])
+}
+
+model Producer{
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @db.Text
+
+  services  Service[]
+  clients   Client[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
