@@ -6,19 +6,22 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model Client{
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @db.Text
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @db.Text
+  password     String
+  phone_number BigInt
 
-  producers Producer[]
+  producers    Producer[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 enum ServiceTypes{
@@ -45,13 +48,15 @@ model Service{
 }
 
 model Producer{
-  id        String   @id @default(uuid())
-  name      String
-  email     String   @db.Text
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @db.Text
+  password     String
+  phone_number BigInt
 
-  services  Service[]
-  clients   Client[]
+  services     Service[]
+  clients      Client[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
