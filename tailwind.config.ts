@@ -7,9 +7,10 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-  ],
+  ],  
   prefix: "",
   theme: {
+    
     container: {
       center: true,
       padding: "2rem",
@@ -18,6 +19,12 @@ const config = {
       },
     },
     extend: {
+      // colors:{
+      //   'wed':var(--wedding-darkest-red)
+      //   // 'wedding-dark-red':'#870f0f',
+      //   // 'wedding-light-red':'#ce2c2c',
+      //   // 'wedding-medium-red':'#b41c1c',
+      // },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
