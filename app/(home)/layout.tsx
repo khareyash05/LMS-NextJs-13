@@ -7,9 +7,10 @@ const HomeLayout = ({
     return ( 
         <div className="h-full bg-orange-600">
         <Navbar />
-        <main className="pt-8 pb-20">
+        <main className="py-12">
             {children}
         </main>
+        <hr className="py-2"/>
         <Footer />
         </div>
      );
