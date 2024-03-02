@@ -1,0 +1,77 @@
+import { z } from "zod";
+import { createEnv } from "@t3-oss/env-nextjs";
+
+export const env = createEnv({
+  /**
+   * Specify your server-side environment variables schema here. This way you can ensure the app
+   * isn't built with invalid env vars.
+   */
+  server: {
+    DATABASE_URL: z.string().url(),
+    NODE_ENV: z.enum(["development", "test", "production"]),
+    SEED_SECRET_KEY: z.string().min(1).optional(),
+    // AUTH
+    AUTH_GOOGLE_CLIENT_ID: z.string().optional(),
+    AUTH_GOOGLE_CLIENT_SECRET: z.string().optional(),
+    AUTH_GITHUB_CLIENT_ID: z.string().optional(),
+    AUTH_GITHUB_CLIENT_SECRET: z.string().optional(),
+    AUTH_AZURE_AD_CLIENT_ID: z.string().optional(),
+    AUTH_AZURE_AD_CLIENT_SECRET: z.string().optional(),
+    AUTH_AZURE_AD_TENANT_ID: z.string().optional(),
+    AUTH_DOMAINS_WITH_SSO_ENFORCEMENT: z.string().optional(),
+    AUTH_DISABLE_USERNAME_PASSWORD: z.enum(["true", "false"]).optional(),
+    // EMAIL
+    EMAIL_FROM_ADDRESS: z.string().optional(),
+    SMTP_CONNECTION_URL: z.string().optional(),
+    // S3
+    S3_ENDPOINT: z.string().optional(),
+    S3_ACCESS_KEY_ID: z.string().optional(),
+    S3_SECRET_ACCESS_KEY: z.string().optional(),
+    S3_BUCKET_NAME: z.string().optional(),
+    S3_REGION: z.string().optional(),
+  },
+
+  /**
+   * Specify your client-side environment variables schema here. This way you can ensure the app
+   * isn't built with invalid env vars. To expose them to the client, prefix them with
+   * `NEXT_PUBLIC_`.
+   */
+  client: {
+    NEXT_PUBLIC_DEMO_PROJECT_ID: z.string().optional(),
+    NEXT_PUBLIC_SIGN_UP_DISABLED: z.enum(["true", "false"]).optional(),
+  },
+
+  /**
+   * You can't destruct `process.env` as a regular object in the Next.js edge runtimes (e.g.
+   * middlewares) or client-side so we need to destruct manually.
+   */
+  runtimeEnv: {
+    SEED_SECRET_KEY: process.env.SEED_SECRET_KEY,
+    NEXT_PUBLIC_DEMO_PROJECT_ID: process.env.NEXT_PUBLIC_DEMO_PROJECT_ID,
+    DATABASE_URL: process.env.DATABASE_URL,
+    NODE_ENV: process.env.NODE_ENV,
+    NEXT_PUBLIC_LANGFUSE_CLOUD_REGION:
+      process.env.NEXT_PUBLIC_LANGFUSE_CLOUD_REGION,
+    NEXT_PUBLIC_SIGN_UP_DISABLED: process.env.NEXT_PUBLIC_SIGN_UP_DISABLED,
+    // AUTH
+    AUTH_GOOGLE_CLIENT_ID: process.env.AUTH_GOOGLE_CLIENT_ID,
+    AUTH_GOOGLE_CLIENT_SECRET: process.env.AUTH_GOOGLE_CLIENT_SECRET,
+    AUTH_GITHUB_CLIENT_ID: process.env.AUTH_GITHUB_CLIENT_ID,
+    AUTH_GITHUB_CLIENT_SECRET: process.env.AUTH_GITHUB_CLIENT_SECRET,
+    AUTH_AZURE_AD_CLIENT_ID: process.env.AUTH_AZURE_AD_CLIENT_ID,
+    AUTH_AZURE_AD_CLIENT_SECRET: process.env.AUTH_AZURE_AD_CLIENT_SECRET,
+    AUTH_AZURE_AD_TENANT_ID: process.env.AUTH_AZURE_AD_TENANT_ID,
+    AUTH_DOMAINS_WITH_SSO_ENFORCEMENT:
+      process.env.AUTH_DOMAINS_WITH_SSO_ENFORCEMENT,
+    AUTH_DISABLE_USERNAME_PASSWORD: process.env.AUTH_DISABLE_USERNAME_PASSWORD,
+    // Email
+    EMAIL_FROM_ADDRESS: process.env.EMAIL_FROM_ADDRESS,
+    SMTP_CONNECTION_URL: process.env.SMTP_CONNECTION_URL,
+    // S3
+    S3_ENDPOINT: process.env.S3_ENDPOINT,
+    S3_ACCESS_KEY_ID: process.env.S3_ACCESS_KEY_ID,
+    S3_SECRET_ACCESS_KEY: process.env.S3_SECRET_ACCESS_KEY,
+    S3_BUCKET_NAME: process.env.S3_BUCKET_NAME,
+    S3_REGION: process.env.S3_REGION,
+  },
+});
