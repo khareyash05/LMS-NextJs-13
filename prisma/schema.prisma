@@ -1,65 +1,123 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
 }
 
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+model Course {
+  id String @id @default(uuid())
+  userId String
+  title String @db.Text
+  description String? @db.Text
+  imageUrl String? @db.Text
+  price Float?
+  isPublished Boolean @default(false)
+
+  categoryId String?
+  category Category? @relation(fields: [categoryId], references: [id])
+
+  chapters Chapter[]
+  attachments Attachment[]
+  purchases Purchase[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([categoryId])
+  @@fulltext([title])
 }
 
-model Client{
-  id           String   @id @default(uuid())
-  name         String
-  email        String   @db.Text
-  password     String
-  phone_number BigInt
-
-  producers    Producer[]
-  services     Service[]
-
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+model Category {
+  id String @id @default(uuid())
+  name String @unique
+  courses Course[]
 }
 
-enum ServiceTypes{
-  MARRIAGEHALL
-  PHOTOGRAPHER
-  DJ
-  CATERER
+model Attachment {
+  id String @id @default(uuid())
+  name String
+  url String @db.Text
+
+  courseId String
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
 }
 
-model Service{
-  id         String   @id @default(uuid())
-  name       String
-  type       ServiceTypes
-  cost       Int
-  details    String   @db.Text
+model Chapter {
+  id String @id @default(uuid())
+  title String
+  description String? @db.Text
+  videoUrl String? @db.Text
+  position Int
+  isPublished Boolean @default(false)
+  isFree Boolean @default(false)
 
-  producerId String
-  producer   Producer @relation(fields: [producerId],references: [id],onDelete: Cascade)
+  muxData MuxData?
 
-  clientId   String  @default("")
-  client     Client   @relation(fields: [clientId],references: [id],onDelete: Cascade)
+  courseId String
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  userProgress UserProgress[]
 
-  @@index([producerId])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
 }
 
-model Producer{
-  id           String   @id @default(uuid())
-  name         String
-  email        String   @db.Text
-  password     String
-  phone_number BigInt
+model MuxData {
+  id String @id @default(uuid())
+  assetId String
+  playbackId String?
 
-  services     Service[]
-  clients      Client[]
+  chapterId String @unique
+  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+}
 
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+model UserProgress {
+  id String @id @default(uuid())
+  userId String
+
+  chapterId String
+  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  isCompleted Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([chapterId])
+  @@unique([userId, chapterId])
+}
+
+model Purchase {
+  id String @id @default(uuid())
+  userId String
+
+  courseId String
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+
+  @@unique([userId, courseId])
+  @@index([courseId])
+}
+
+model StripeCustomer {
+  id String @id @default(uuid())
+  userId String @unique
+  stripeCustomerId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
